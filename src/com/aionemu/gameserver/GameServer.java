@@ -575,7 +575,7 @@ public class GameServer {
 		AEVersions.printFullVersionInfo();
 		AEInfos.printAllInfos();
 		Util.printSection("GameServer");
-		log.info("Power by Encom");
+		log.info("版权所有JonasR");
 		log.info("===================================================");
 		log.info("Aion GameServer started in " + (System.currentTimeMillis() - start) / 1000 + " seconds.");
 		gs.startServers();
