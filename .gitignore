@@ -2,3 +2,5 @@
 build
 .idea
 *.iml
+Tools
+build_gameserver.bat
