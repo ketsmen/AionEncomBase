@@ -64,9 +64,11 @@ public class CM_DIALOG_SELECT extends AionClientPacket {
 		final Player player = getConnection().getActivePlayer();
 		QuestTemplate questTemplate = DataManager.QUEST_DATA.getQuestById(questId);
 		QuestEnv env = new QuestEnv(null, player, questId, 0);
-		if (player.isInPlayerMode(PlayerMode.RIDE)) {
-			player.unsetPlayerMode(PlayerMode.RIDE);
-		}
+
+        /* 	if (player.isInPlayerMode(PlayerMode.RIDE)) { - dismount player with pet when interact with npc.
+			 player.unsetPlayerMode(PlayerMode.RIDE);
+        } */
+
 		if (player.isTrading()) {
 			return;
 		}
