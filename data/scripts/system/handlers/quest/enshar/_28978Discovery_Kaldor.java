@@ -26,13 +26,8 @@ import com.aionemu.gameserver.services.QuestService;
 public class _28978Discovery_Kaldor extends QuestHandler {
 	
 	private static final int questId = 28978;
-	
 	public _28978Discovery_Kaldor() {
 		super(questId);
-	}
-	@Override
-	public boolean onLvlUpEvent(QuestEnv env) {
-		return defaultOnLvlUpEvent(env);
 	}
 	
 	@Override
@@ -66,13 +61,11 @@ public class _28978Discovery_Kaldor extends QuestHandler {
 					case START_DIALOG: {
 						return sendQuestDialog(env, 1011);
 					} case CHECK_COLLECTED_ITEMS: {
-					    return checkQuestItems(env, 0, 0, true, 5, 2716);
-					} case SELECT_REWARD: {
-						return sendQuestEndDialog(env);
+					    return checkQuestItems(env, 0, 0, true, 10000, 10001);
 					}
 				}
 			}
-		} else if (qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 805218) {
 				return sendQuestEndDialog(env);
 			}

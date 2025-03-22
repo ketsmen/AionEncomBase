@@ -24,10 +24,9 @@ import com.aionemu.gameserver.world.zone.ZoneName;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _28500The_Secret_Of_The_Odella extends QuestHandler
-{
+public class _28500The_Secret_Of_The_Odella extends QuestHandler {
+
 	private final static int questId = 28500;
-	
 	public _28500The_Secret_Of_The_Odella() {
 		super(questId);
 	}

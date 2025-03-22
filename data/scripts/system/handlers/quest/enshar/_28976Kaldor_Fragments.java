@@ -26,16 +26,10 @@ import com.aionemu.gameserver.services.QuestService;
 public class _28976Kaldor_Fragments extends QuestHandler {
 	
 	private static final int questId = 28976;
-	
 	public _28976Kaldor_Fragments() {
 		super(questId);
 	}
-	
-	@Override
-	public boolean onLvlUpEvent(QuestEnv env) {
-		return defaultOnLvlUpEvent(env);
-	}
-	
+
 	@Override
 	public void register() {
 		qe.registerQuestNpc(805218).addOnQuestStart(questId);
@@ -67,13 +61,11 @@ public class _28976Kaldor_Fragments extends QuestHandler {
 					case START_DIALOG: {
 						return sendQuestDialog(env, 1011);
 					} case CHECK_COLLECTED_ITEMS: {
-					    return checkQuestItems(env, 0, 0, true, 5, 2716);
-					} case SELECT_REWARD: {
-						return sendQuestEndDialog(env);
+					    return checkQuestItems(env, 0, 0, true, 10000, 10001);
 					}
 				}
 			}
-		} else if (qs.getStatus() == QuestStatus.REWARD) {
+		} else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 805218) {
 				return sendQuestEndDialog(env);
 			}

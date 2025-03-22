@@ -329,14 +329,8 @@ public class TrialsOfEternityInstance extends GeneralInstanceHandler
 				final int Kontesius_Gampt = spawnRace == Race.ASMODIANS ? 246425 : 246431;
 				final int Ostia_Zarik = spawnRace == Race.ASMODIANS ? 246426 : 246432;
 				final int SlaughtererGuard = spawnRace == Race.ASMODIANS ? 246412 : 246414;
-				switch (Rnd.get(1, 2)) {
-					case 1:
-						spawn(Kontesius_Gampt, 216.47931f, 1025.3909f, 706.75494f, (byte) 0);
-					break;
-					case 2:
-				        spawn(Ostia_Zarik, 216.47931f, 1025.3909f, 706.75494f, (byte) 0);
-					break;
-				}
+				spawn(Kontesius_Gampt, 216.47931f, 1025.3909f, 706.75494f, (byte) 0);
+				spawn(Ostia_Zarik, 216.47931f, 1025.3909f, 706.75494f, (byte) 0);
 				spawn(SlaughtererGuard, 218.27975f, 1022.4601f, 706.75494f, (byte) 0);
 				spawn(SlaughtererGuard, 218.33261f, 1028.3926f, 706.75494f, (byte) 0);
 				spawn(SlaughtererGuard, 215.11415f, 1030.633f, 706.75494f, (byte) 0);
@@ -374,7 +368,7 @@ public class TrialsOfEternityInstance extends GeneralInstanceHandler
 				spawn(731744, 236.54419f, 1025.4613f, 706.75494f, (byte) 60); //Exit.
 				spawn(835408, 222.55490f, 1031.6270f, 706.75494f, (byte) 15); //Treasure Chest A.
 				spawn(835409, 222.53116f, 1019.2116f, 706.75494f, (byte) 105); //Treasure Chest B.
-				sendMsg("[SUCCES]: You have finished <Trials Of Eternity>");
+				//sendMsg("[SUCCES]: You have finished <Trials Of Eternity>");
 			break;
 		   /**
 			* You will now receive "1,200 GP" instead of "200 Gp" for killing "Heart Of Boliag" in the Trials of Eternity instance.
@@ -524,7 +518,7 @@ public class TrialsOfEternityInstance extends GeneralInstanceHandler
 	
 	protected void stopInstance(Player player) {
 		stopInstanceTask();
-		sendMsg("[SUCCES]: You survived !!! :) ");
+		//sendMsg("[SUCCES]: You survived !!! :) ");
 	}
 	
 	protected void dimensionBoss01(Player player) {

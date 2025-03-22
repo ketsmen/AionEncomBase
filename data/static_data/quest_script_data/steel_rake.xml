@@ -14,7 +14,7 @@
 	<!-- The Manduri Imperative (Elyos Only) -->
 	<item_collecting id="3203" start_npc_ids="805834"/>
 	<!-- Shameless Peperinrinerk (Elyos Only) -->
-	<report_to id="3204" start_npc_ids="798319" end_npc_ids="278651" item_id="182209085"/>
+	<report_to id="3204" start_npc_ids="805834" end_npc_ids="804601" item_id="182209085"/>
 	<!-- Hairpin Ahoy! (Elyos Only) -->
 	<item_collecting id="3206" start_npc_ids="805835"/>
 	<!-- The Pirates' Log (Elyos Only) -->
@@ -49,7 +49,7 @@
 	<!-- Anikiki's Taming Manual (Asmodians Only) -->
 	<item_collecting id="4203" start_npc_ids="805841"/>
 	<!-- Deliver The Taming Manual (Asmodians Only) -->
-	<report_to id="4204" start_npc_ids="204283" end_npc_ids="278151" item_id="182209100"/>
+	<report_to id="4204" start_npc_ids="805841" end_npc_ids="205233" item_id="182209100"/>
 	<!-- Hat Of The Steel Rake Pirates (Asmodians Only) -->
 	<item_collecting id="4206" start_npc_ids="805842"/>
 	<!-- Log Of The Steel Rake (Asmodians Only) -->
@@ -65,7 +65,7 @@
 	<!-- [Group] Unfortunate Baba Hun (Asmodians Only) -->
 	<monster_hunt id="4213" start_npc_ids="204792">
 		<monster npc_ids="215032" var="0" end_var="4"/>
-		<monster npc_ids="215038" var="1" end_var="4"/>
+		<monster npc_ids="215410" var="1" end_var="4"/>
 	</monster_hunt>
 	<!-- [Group] Black Cloud Ledgers (Asmodians Only) -->
 	<item_collecting id="4214" start_npc_ids="805843"/>

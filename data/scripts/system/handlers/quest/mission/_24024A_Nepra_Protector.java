@@ -49,7 +49,7 @@ public class _24024A_Nepra_Protector extends QuestHandler {
 	
     @Override
     public boolean onLvlUpEvent(QuestEnv env) {
-        return defaultOnLvlUpEvent(env, 24023, false);
+        return defaultOnLvlUpEvent(env, 24020, false);
     }
 	
     @Override
@@ -102,7 +102,6 @@ public class _24024A_Nepra_Protector extends QuestHandler {
                             }
                     }
                 }
-                break;
                 case 204361: {
                     switch (env.getDialog()) {
                         case START_DIALOG:
@@ -116,7 +115,6 @@ public class _24024A_Nepra_Protector extends QuestHandler {
 
                     }
                 }
-                break;
                 case 730739: {
                     switch (env.getDialog()) {
                         case START_DIALOG:
@@ -125,13 +123,12 @@ public class _24024A_Nepra_Protector extends QuestHandler {
                             }
                         case STEP_TO_3:
                             if (var == 2) {
-                                TeleportService2.teleportTo(env.getPlayer(), 220020000, 2035.9752f, 923.08563f, 222.1174f, (byte) 114);
+                                TeleportService2.teleportTo(env.getPlayer(), 220020000, 1979.7205f, 853.2568f, 248.5204f, (byte) 115);
                                 return defaultCloseDialog(env, 2, 3);
                             }
 
                     }
                 }
-                break;
             }
         } else if (qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 204369) {

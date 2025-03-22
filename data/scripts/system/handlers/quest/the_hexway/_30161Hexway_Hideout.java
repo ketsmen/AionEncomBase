@@ -22,22 +22,15 @@ import com.aionemu.gameserver.questEngine.model.QuestStatus;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _30161Hexway_Hideout extends QuestHandler
-{
+public class _30161Hexway_Hideout extends QuestHandler {
+
 	private final static int questId = 30161;
-	
 	public _30161Hexway_Hideout() {
 		super(questId);
 	}
 	
 	@Override
-	public boolean onLvlUpEvent(QuestEnv env) {
-		return defaultOnLvlUpEvent(env);
-	}
-	
-	@Override
 	public void register() {
-		qe.registerOnLevelUp(questId);
 		qe.registerQuestNpc(799225).addOnTalkEvent(questId); //Richelle.
 		qe.registerQuestNpc(799383).addOnTalkEvent(questId); //Vergelan.
 	}
@@ -47,7 +40,7 @@ public class _30161Hexway_Hideout extends QuestHandler
 		final Player player = env.getPlayer();
         final QuestState qs = player.getQuestStateList().getQuestState(questId);
 		int targetId = env.getTargetId();
-		if (qs.getStatus() == QuestStatus.START) {
+		if (qs == null || qs.getStatus() == QuestStatus.START) {
 			if (targetId == 799225) { //Richelle.
 				switch (env.getDialog()) {
 					case START_DIALOG: {
@@ -66,7 +59,8 @@ public class _30161Hexway_Hideout extends QuestHandler
 					}
 				}
 			}
-		} else if (qs.getStatus() == QuestStatus.REWARD) {
+		} 
+        else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
 			if (targetId == 799383) { //Vergelan.
 				return sendQuestEndDialog(env);
 			}

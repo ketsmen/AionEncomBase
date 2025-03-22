@@ -16,22 +16,23 @@ import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_ITEM_USAGE_ANIMATION;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
-import com.aionemu.gameserver.services.QuestService;
+import com.aionemu.gameserver.utils.PacketSendUtility;
+import com.aionemu.gameserver.utils.ThreadPoolManager;
 import com.aionemu.gameserver.world.zone.ZoneName;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _10502Cygnea_Secrets extends QuestHandler
-{
+public class _10502Cygnea_Secrets extends QuestHandler {
+
     public static final int questId = 10502;
-	
     public _10502Cygnea_Secrets() {
         super(questId);
     }
@@ -111,12 +112,6 @@ public class _10502Cygnea_Secrets extends QuestHandler
                         return closeDialogWindow(env);
 					} case CHECK_COLLECTED_ITEMS: {
 						return checkQuestItems(env, 2, 3, false, 10000, 10001);
-					} case FINISH_DIALOG: {
-						if (var == 3) {
-							defaultCloseDialog(env, 3, 3);
-						} else if (var == 2) {
-							defaultCloseDialog(env, 2, 2);
-						}
 					}
                 }
             } if (targetId == 702669) { //Shining Lump Of Soil.
@@ -160,18 +155,25 @@ public class _10502Cygnea_Secrets extends QuestHandler
 	
 	@Override
     public HandlerResult onItemUseEvent(final QuestEnv env, Item item) {
-        final Player player = env.getPlayer();
-        final QuestState qs = player.getQuestStateList().getQuestState(questId);
+		final Player player = env.getPlayer();
+		final int id = item.getItemTemplate().getTemplateId();
+		final int itemObjId = item.getObjectId();
+		final QuestState qs = player.getQuestStateList().getQuestState(questId);
         if (qs != null && qs.getStatus() == QuestStatus.START) {
-			if (!player.isInsideZone(ZoneName.get("LF5_ITEMUSEAREA_Q10502"))) {
-				return HandlerResult.UNKNOWN;
-			}
-            int var = qs.getQuestVarById(0);
-            if (var == 4) {
+		if (player.isInsideZone(ZoneName.get("LF5_ITEMUSEAREA_Q10502"))) {
+        PacketSendUtility.broadcastPacket(player, new SM_ITEM_USAGE_ANIMATION(player.getObjectId(), itemObjId, id, 3000, 0, 0), true);
+        ThreadPoolManager.getInstance().schedule(new Runnable() {
+            @Override
+            public void run() {
+                PacketSendUtility.broadcastPacket(player, new SM_ITEM_USAGE_ANIMATION(player.getObjectId(), itemObjId, id, 0, 1, 0), true);
+                removeQuestItem(env, 182215601, 1);
 				giveQuestItem(env, 182215602, 1);
-                return HandlerResult.fromBoolean(useQuestItem(env, item, 4, 5, false));
+                changeQuestStep(env, 4, 5, false);
+                updateQuestStatus(env);  
+			    }
+		    }, 3000);
             }
         }
-        return HandlerResult.FAILED;
+        return HandlerResult.SUCCESS;
     }
 }

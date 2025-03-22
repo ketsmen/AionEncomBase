@@ -16,15 +16,8 @@
  */
 package quest.heiron;
 
-import com.aionemu.gameserver.dataholders.DataManager;
-import com.aionemu.gameserver.model.EmotionType;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
-import com.aionemu.gameserver.model.gameobjects.player.RewardType;
-import com.aionemu.gameserver.model.templates.quest.Rewards;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_EMOTION;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_QUEST_ACTION;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
@@ -32,12 +25,11 @@ import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
 import com.aionemu.gameserver.services.QuestService;
 import com.aionemu.gameserver.services.teleport.TeleportService2;
-import com.aionemu.gameserver.utils.PacketSendUtility;
 import com.aionemu.gameserver.utils.ThreadPoolManager;
 import com.aionemu.gameserver.world.WorldMapType;
 
 /**
- * @author Balthazar
+ * @author Balthazar, Cheatkiller
  */
 public class _1640TeleporterRepairs extends QuestHandler {
 
@@ -66,9 +58,7 @@ public class _1640TeleporterRepairs extends QuestHandler {
 						return sendQuestDialog(env, 1011);
 					}
 					case STEP_TO_1: {
-						QuestService.startQuest(env);
-						PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(0, 0));
-						return true;
+				        return sendQuestStartDialog(env);
 					}
 					default:
 						return sendQuestStartDialog(env);
@@ -77,33 +67,20 @@ public class _1640TeleporterRepairs extends QuestHandler {
 		}
 		if (qs == null)
 			return false;
-		if (qs.getStatus() == QuestStatus.START) {
-			if (targetId == 730033 && env.getDialog() == QuestDialog.USE_OBJECT && player.getInventory().getItemCountByItemId(182201790) >= 1) {
-				final int targetObjectId = env.getVisibleObject().getObjectId();
-				PacketSendUtility.broadcastPacket(player, new SM_EMOTION(player, EmotionType.SIT, 0, targetObjectId), true);
-				ThreadPoolManager.getInstance().schedule(new Runnable() {
-					@Override
-					public void run() {
-						if (!player.isTargeting(targetObjectId))
-							return;
-						qs.setStatus(QuestStatus.REWARD);
-						updateQuestStatus(env);
-					}
-				}, 3000);
-			}
-		}
-		else if (qs.getStatus() == QuestStatus.REWARD) {
+		else if (qs.getStatus() == QuestStatus.START) {
 			if (targetId == 730033) {
-				removeQuestItem(env, 182201790, 1);
-				if (qs == null || qs.getStatus() != QuestStatus.REWARD) {
-					return false;
+				switch (env.getDialog()) {
+					case START_DIALOG:
+						return sendQuestDialog(env, 1352);
+					case STEP_TO_2:
+						if (player.getInventory().getItemCountByItemId(182201790) >= 1) {
+							removeQuestItem(env, 182201790, 1);
+							qs.setStatus(QuestStatus.REWARD);
+							QuestService.finishQuest(env);
+							return closeDialogWindow(env);
+						} else
+							return sendQuestDialog(env, 1353);
 				}
-				qs.setStatus(QuestStatus.COMPLETE);
-				qs.setCompleteCount(255);
-				updateQuestStatus(env);
-				PacketSendUtility.sendPacket(player, new SM_QUEST_ACTION(questId, QuestStatus.COMPLETE, 2));
-				PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(0, 0));
-				return true;
 			}
 		}
 		else if (qs.getStatus() == QuestStatus.COMPLETE) {

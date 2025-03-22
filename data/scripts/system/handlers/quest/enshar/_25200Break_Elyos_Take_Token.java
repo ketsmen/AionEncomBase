@@ -15,24 +15,19 @@ package quest.enshar;
 import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
-import com.aionemu.gameserver.services.QuestService;
-import com.aionemu.gameserver.utils.PacketSendUtility;
-
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _25200Break_Elyos_Take_Token extends QuestHandler
-{
+public class _25200Break_Elyos_Take_Token extends QuestHandler {
+
 	private final static int questId = 25200;
-	
 	public _25200Break_Elyos_Take_Token() {
 		super(questId);
 	}
@@ -63,7 +58,9 @@ public class _25200Break_Elyos_Take_Token extends QuestHandler
 		} if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 0) { 
 				if (env.getDialog() == QuestDialog.ACCEPT_QUEST) {
-					QuestService.startQuest(env);
+					return sendQuestStartDialog(env);
+				}
+				if (env.getDialog() == QuestDialog.REFUSE_QUEST) {
 					return closeDialogWindow(env);
 				}
 			}
@@ -75,11 +72,10 @@ public class _25200Break_Elyos_Take_Token extends QuestHandler
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					qs.setStatus(QuestStatus.REWARD);
 					updateQuestStatus(env);
-					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 					return sendQuestEndDialog(env);
 				}
 			}
-		} else if (qs.getStatus() == QuestStatus.REWARD && targetId == 804719) {
+		} else if (qs == null || qs.getStatus() == QuestStatus.REWARD && targetId == 804719) {
 			return sendQuestEndDialog(env);
 		}
 		return false;

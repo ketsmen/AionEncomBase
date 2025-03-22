@@ -30,7 +30,6 @@ import com.aionemu.gameserver.questEngine.model.QuestStatus;
 public class _2209TheScribbler extends QuestHandler {
 
 	private final static int questId = 2209;
-
 	public _2209TheScribbler() {
 		super(questId);
 	}
@@ -51,7 +50,7 @@ public class _2209TheScribbler extends QuestHandler {
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
 		}
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
-		if (qs == null) {
+		if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 203555) {
 				if (env.getDialog() == QuestDialog.START_DIALOG) {
 					return sendQuestDialog(env, 1011);
@@ -104,9 +103,6 @@ public class _2209TheScribbler extends QuestHandler {
 						else if (env.getDialogId() == 1009) {
 							qs.setStatus(QuestStatus.REWARD);
 							updateQuestStatus(env);
-							return sendQuestEndDialog(env);
-						}
-						else {
 							return sendQuestEndDialog(env);
 						}
 					}

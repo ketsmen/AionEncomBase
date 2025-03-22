@@ -15,24 +15,20 @@ package quest.eltnen;
 import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Npc;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.HandlerResult;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
-import com.aionemu.gameserver.services.QuestService;
-import com.aionemu.gameserver.utils.PacketSendUtility;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _1309Manduri_Diary extends QuestHandler
-{
+public class _1309Manduri_Diary extends QuestHandler {
+
 	private final static int questId = 1309;
-	
 	public _1309Manduri_Diary() {
 		super(questId);
 	}
@@ -64,33 +60,37 @@ public class _1309Manduri_Diary extends QuestHandler
 		} if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 0) { 
 				if (env.getDialog() == QuestDialog.ACCEPT_QUEST) {
-					QuestService.startQuest(env);
-					return closeDialogWindow(env);
+					return sendQuestStartDialog(env);
 				}
+				if (env.getDialog() == QuestDialog.REFUSE_QUEST) {
+					return closeDialogWindow(env);
+			    }
 			}
 		} else if (qs.getStatus() == QuestStatus.START) {
 			if (targetId == 203932) {
 				if (env.getDialog() == QuestDialog.START_DIALOG) {
 					return sendQuestDialog(env, 1352);
-				} else if (env.getDialog() == QuestDialog.STEP_TO_1) {
+				}
+				if (env.getDialog() == QuestDialog.SELECT_ACTION_1353) {
+					return sendQuestDialog(env, 1353);
+				}
+                else if (env.getDialog() == QuestDialog.STEP_TO_1) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
 					updateQuestStatus(env);
-					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
-					return true;
+				    return closeDialogWindow(env);
 				}
 			} else if (targetId == 203830) {
 				if (env.getDialog() == QuestDialog.START_DIALOG) {
 					return sendQuestDialog(env, 2375);
 				} else if (env.getDialogId() == 1009) {
 					qs.setQuestVarById(0, qs.getQuestVarById(0) + 1);
+			        removeQuestItem(env, 182201304, 1);
 					qs.setStatus(QuestStatus.REWARD);
 					updateQuestStatus(env);
-					PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
 					return sendQuestEndDialog(env);
 				}
 			}
-		} else if (qs.getStatus() == QuestStatus.REWARD && targetId == 203830) {
-			removeQuestItem(env, 182201304, 1);
+		} else if (qs == null || qs.getStatus() == QuestStatus.REWARD && targetId == 203830) {
 			return sendQuestEndDialog(env);
 		}
 		return false;

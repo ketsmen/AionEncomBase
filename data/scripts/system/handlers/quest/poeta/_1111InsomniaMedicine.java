@@ -33,7 +33,6 @@ import com.aionemu.gameserver.utils.PacketSendUtility;
 public class _1111InsomniaMedicine extends QuestHandler {
 
 	private final static int questId = 1111;
-
 	public _1111InsomniaMedicine() {
 		super(questId);
 	}
@@ -53,13 +52,13 @@ public class _1111InsomniaMedicine extends QuestHandler {
 			targetId = ((Npc) env.getVisibleObject()).getNpcId();
 		QuestState qs = player.getQuestStateList().getQuestState(questId);
 		if (targetId == 203075) {
-			if (qs == null) {
+			if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 				if (env.getDialog() == QuestDialog.START_DIALOG)
 					return sendQuestDialog(env, 1011);
 				else
 					return sendQuestStartDialog(env);
 			}
-			else if (qs.getStatus() == QuestStatus.REWARD) {
+			else if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
 				if (env.getDialog() == QuestDialog.USE_OBJECT) {
 					if (qs.getQuestVarById(0) == 2) {
 						removeQuestItem(env, 182200222, 1);
@@ -80,7 +79,8 @@ public class _1111InsomniaMedicine extends QuestHandler {
 				}
 			}
 		}
-		else if (targetId == 203061) {
+        else if (qs.getStatus() == QuestStatus.START) {
+		   if (targetId == 203061) {
 			if (env.getDialog() == QuestDialog.START_DIALOG) {
 				if (qs.getQuestVarById(0) == 0)
 					return sendQuestDialog(env, 1352);
@@ -97,25 +97,20 @@ public class _1111InsomniaMedicine extends QuestHandler {
 				else
 					return sendQuestDialog(env, 1693);
 			}
-			else if (env.getDialog() == QuestDialog.STEP_TO_1 && qs.getStatus() != QuestStatus.COMPLETE
-				&& qs.getStatus() != QuestStatus.NONE) {
-				if (!giveQuestItem(env, 182200222, 1))
-					return true;
+			else if (env.getDialog() == QuestDialog.STEP_TO_1) {
+				giveQuestItem(env, 182200222, 1);
+                qs.setStatus(QuestStatus.REWARD);
 				qs.setQuestVarById(0, 2);
-				qs.setStatus(QuestStatus.REWARD);
 				updateQuestStatus(env);
-				PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
-				return true;
+				return closeDialogWindow(env);
 			}
-			else if (env.getDialog() == QuestDialog.STEP_TO_2 && qs.getStatus() != QuestStatus.COMPLETE
-				&& qs.getStatus() != QuestStatus.NONE) {
-				if (!giveQuestItem(env, 182200221, 1))
-					return true;
+			else if (env.getDialog() == QuestDialog.STEP_TO_2) {
+				giveQuestItem(env, 182200221, 1);
+                qs.setStatus(QuestStatus.REWARD);
 				qs.setQuestVarById(0, 3);
-				qs.setStatus(QuestStatus.REWARD);
 				updateQuestStatus(env);
-				PacketSendUtility.sendPacket(player, new SM_DIALOG_WINDOW(env.getVisibleObject().getObjectId(), 10));
-				return true;
+				return closeDialogWindow(env);
+                }
 			}
 		}
 		return false;

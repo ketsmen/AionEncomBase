@@ -24,11 +24,10 @@ import com.aionemu.gameserver.questEngine.model.QuestStatus;
 /** Author Ghostfur & Unknown (Aion-Unique) [702041 Baranath Silencer]
 /****/
 
-public class _24054Crisis_In_Beluslan extends QuestHandler
-{
+public class _24054Crisis_In_Beluslan extends QuestHandler {
+
     private final static int questId = 24054;
     private final static int[] npcs = {204701, 204702, 802053};
-	
     public _24054Crisis_In_Beluslan() {
         super(questId);
     }
@@ -51,7 +50,8 @@ public class _24054Crisis_In_Beluslan extends QuestHandler
 	
     @Override
     public boolean onLvlUpEvent(QuestEnv env) {
-        return defaultOnLvlUpEvent(env, 24053, false);
+        int[] quests = {24050, 24051, 24052, 24053};
+        return defaultOnLvlUpEvent(env, quests, false);
     }
 	
     @Override

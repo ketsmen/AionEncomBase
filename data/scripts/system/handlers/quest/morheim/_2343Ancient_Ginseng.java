@@ -27,10 +27,9 @@ import com.aionemu.gameserver.services.QuestService;
 /** Author Ghostfur & Unknown (Aion-Unique)
 /****/
 
-public class _2343Ancient_Ginseng extends QuestHandler
-{
+public class _2343Ancient_Ginseng extends QuestHandler {
+
 	private final static int questId = 2343;
-	
 	public _2343Ancient_Ginseng() {
 		super(questId);
 	}
@@ -61,7 +60,9 @@ public class _2343Ancient_Ginseng extends QuestHandler
 		} if (qs == null || qs.getStatus() == QuestStatus.NONE) {
 			if (targetId == 0) { 
 				if (env.getDialog() == QuestDialog.ACCEPT_QUEST) {
-					QuestService.startQuest(env);
+					return sendQuestStartDialog(env);
+				}
+				if (env.getDialog() == QuestDialog.REFUSE_QUEST) {
 					return closeDialogWindow(env);
 				}
 			}

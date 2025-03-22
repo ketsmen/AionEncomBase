@@ -13,14 +13,11 @@
 package quest.crucible_spire;
 
 import com.aionemu.gameserver.model.gameobjects.player.Player;
-import com.aionemu.gameserver.network.aion.serverpackets.SM_DIALOG_WINDOW;
 import com.aionemu.gameserver.questEngine.handlers.QuestHandler;
 import com.aionemu.gameserver.questEngine.model.QuestDialog;
 import com.aionemu.gameserver.questEngine.model.QuestEnv;
 import com.aionemu.gameserver.questEngine.model.QuestState;
 import com.aionemu.gameserver.questEngine.model.QuestStatus;
-import com.aionemu.gameserver.services.QuestService;
-import com.aionemu.gameserver.utils.PacketSendUtility;
 
 /****/
 /** Author Ghostfur & Unknown (Aion-Unique)
@@ -58,21 +55,7 @@ public class _28253Start_Of_The_Second_Ordeal extends QuestHandler {
                 }
 			}
 		}
-        if (qs == null || qs.getStatus() == QuestStatus.NONE) {
-			if (targetId == 798804) { //Kijan.
-				switch (env.getDialog()) {
-                    case START_DIALOG: {
-                        return sendQuestDialog(env, 4762);
-					} case ACCEPT_QUEST:
-					case ACCEPT_QUEST_SIMPLE: {
-						return sendQuestStartDialog(env);
-					} case REFUSE_QUEST_SIMPLE: {
-				        return closeDialogWindow(env);
-					}
-                }
-			}
-		}
-		if (qs.getStatus() == QuestStatus.REWARD) {
+		if (qs == null || qs.getStatus() == QuestStatus.REWARD) {
             if (targetId == 798804) {
                 if (env.getDialog() == QuestDialog.START_DIALOG) {
                     return sendQuestDialog(env, 10002);
@@ -96,6 +79,7 @@ public class _28253Start_Of_The_Second_Ordeal extends QuestHandler {
 					qs.setQuestVarById(1, qs.getQuestVarById(1) + 1);
 					updateQuestStatus(env);
 				} if (qs.getQuestVarById(1) >= 1) {
+                    qs.setQuestVarById(0, 1);
 					qs.setStatus(QuestStatus.REWARD);
 					updateQuestStatus(env);
 				}
